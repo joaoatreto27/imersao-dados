@@ -61,3 +61,25 @@ col3.metric("Total de registros", f"{total_registros:,.0f}")
 col4.metric("Cargo mais frequente", cargo_mais_frequente)
 
 st.markdown("---")
+
+## Gráficos 
+
+st.subheader("Gráficos")
+
+col_graf1, col_graf2 = st.columns(2)
+
+with col_graf1:
+    if not df_filtrado.empty:
+        top_cargos = df_filtrado.groupby('cargo')['usd'].mean().nlargest(10).sort_values(ascending=True).reset_index()
+        grafico_cargos = px.bar(
+            top_cargos,
+            x='usd',
+            y='cargo',
+            orientation='h',
+            title="Top 10 cargos por salário médio",
+            labels={'usd':'Média salarial anual (USD)', 'cargo' : ''}
+        )
+        grafico_cargos.update_layout(title_x=0.1, yaxis={'categoryorder':'total ascending'})
+        st.plotly_chart(grafico_cargos, use_container_width=True)
+    else:
+        st.warning("Nenhum dado para exibir no gráfico de cargos.")
