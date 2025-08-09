@@ -83,3 +83,17 @@ with col_graf1:
         st.plotly_chart(grafico_cargos, use_container_width=True)
     else:
         st.warning("Nenhum dado para exibir no gráfico de cargos.")
+
+with col_graf2:
+    if not df_filtrado.empty:
+        grafico_hist = px.histogram(
+            df_filtrado,
+            x='usd',
+            nbins=30,
+            title="Distribuição dos salários anuais",
+            labels={'usd': 'Faixa salarial (USD)', 'count': ''}
+        )
+        grafico_hist.update_layout(title_x=0.1)
+        st.plotly_chart(grafico_hist, use_container_width=True)
+    else:
+        st.warning("Nenhum dado para exibir no gráfico de distribuição")
