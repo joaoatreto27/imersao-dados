@@ -97,3 +97,22 @@ with col_graf2:
         st.plotly_chart(grafico_hist, use_container_width=True)
     else:
         st.warning("Nenhum dado para exibir no gráfico de distribuição")
+
+col_graf3, col_graf4 = st.columns(2)
+
+with col_graf3:
+    if not df_filtrado.empty:
+        remoto_contagem = df_filtrado['remoto'].value_counts().reset_index()
+        remoto_contagem.columns= ['tipo_trabalho', 'quantidade']
+        grafico_remoto = px.pie(
+            remoto_contagem,
+            names='tipo_trabalho',
+            values='quantidade',
+            title='Proporção dos tipos de trabalho',
+            hole=0.5
+        )
+        grafico_remoto.update_traces(textinfo='percent+label')
+        grafico_remoto.update_layout(title_x=0.1)
+        st.plotly_chart(grafico_remoto, use_container_width=True)
+    else:
+        st.warning("Nenhum dado para exibir no gráfico dos tipos de trabalho.")
